@@ -60,7 +60,29 @@ These come from `scripts/prerun_checks.py`, and the full output is in
 
 ## Results
 
-_None yet. Results will be reported exactly as measured, including failures and deviations._
+Everything is reported exactly as measured, including failures and deviations. **Test has not been run.**
+
+### Dev: base model (2026-11-26)
+
+Full dev split, 923 sentences, from clean commit `47592fa`, greedy decoding with the pre-registered prompt. Run
+summaries are in [docs/runs_dev.json](docs/runs_dev.json).
+
+| System | Precision | Recall | **Micro-F1** | TP / FP / FN | Invalid | Mean s/sentence | Peak VRAM (alloc / reserved) |
+|---|---|---|---|---|---|---|---|
+| B0 zero-shot | 0.342 | 0.418 | **0.376** | 329 / 632 / 458 | 0 (0.0%) | 0.78 | 2.75 / 2.79 GiB |
+| B3 3-shot | 0.312 | 0.437 | **0.364** | 344 / 757 / 443 | 0 (0.0%) | 1.03 | 2.79 / 2.85 GiB |
+
+- **Base comparator** (§5): **B0**, which has the higher dev micro-F1. It is fixed here, before any test run.
+- **VRAM:** 5.05 GiB was free at start and 2.33 GiB after loading the model.
+- **Where the false positives come from** (descriptive, dev only):
+
+  | Kind of false positive | B0 | B3 |
+  |---|---|---|
+  | Span that doesn't overlap any gold mention, mostly genes and proteins such as "APC" or "betacatenin" | 440 | 582 |
+  | Span that overlaps a gold mention, with the wrong boundary | 95 | 86 |
+  | String that matches no tokens in the sentence, e.g. "(APC)" written without the sentence's spaces | 97 | 89 |
+
+- **Sentences with no mention:** of the 434 in dev, B0 answered `[]` to 305 and B3 to 188.
 
 ## Data
 

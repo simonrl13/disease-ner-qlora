@@ -98,6 +98,16 @@ The table below is the original vetting, checked on PyPI and OSV on 2026-11-26 w
 
 ## Time and GPU estimate
 
+**Re-estimate, 2026-11-26, after the smoke test and base dev runs.**
+- **Measured:** B0 0.78 s/sentence and B3 1.03 s/sentence on dev (12 and 16 min); peak 2.8 GiB allocated.
+- **Remaining:**
+  - training, 4 epochs: 1.3–2.6 h. Throughput is not measured yet and needs peft;
+  - Q on dev, 4 checkpoints: about 1–1.3 h;
+  - test, 3 systems: about 0.9 h.
+- **Total, including the 0.5 h already used:** about 4–5.5 GPU-hours, down from 5–10.
+
+The original estimate, from before any run:
+
 These are estimates only, not measurements. The smoke test (step 6) measures real throughput, and I re-estimate
 before the dev phase.
 
