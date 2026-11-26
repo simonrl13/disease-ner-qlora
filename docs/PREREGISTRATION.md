@@ -126,3 +126,18 @@ bootstrap for that subset uses the same settings as §7.
 
 This is a sensitivity check only. The main result, and the §8 decision rule, stay on the full published test split.
 If no test sentence appears in train, this check isn't run, and the README says so.
+
+### Amendment 2 (2026-11-26, owner-approved, before the remaining pre-run checks and any model output)
+
+**Expected sentence counts.** The §2 counts (5,433 / 924 / 941) came from the Hugging Face `ncbi_disease` dataset card.
+They include one empty end-of-file example per split: the HF loading script, at line 140, emits a final example after
+its read loop without checking that it has any tokens, and each file ends with a blank line.
+
+The downloaded files match the pinned commit byte for byte. They contain **5,432 / 923 / 940** non-empty sentences,
+and those are now the expected counts.
+
+**Document counts, added as a check.** The authors' published counts are 593 / 100 / 100 abstracts. Train must have
+593 title lines, made of 592 unique PMIDs plus the documented duplicate, PMID 8528200. Any other result stops the
+project.
+
+The data and all other rules are unchanged.
