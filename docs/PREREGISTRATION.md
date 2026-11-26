@@ -118,4 +118,11 @@ Every number is reported whatever the outcome, including invalid rates and any d
 
 ## 9. Amendments
 
-_None yet._
+### Amendment 1 (2026-11-26, before any data download)
+
+**Train/test overlap sensitivity check.** If any test sentence also appears verbatim in train (same token sequence,
+per the §2 check), test F1 is also reported, for every system, on the test subset without those sentences. The
+bootstrap for that subset uses the same settings as §7.
+
+This is a sensitivity check only. The main result, and the §8 decision rule, stay on the full published test split.
+If no test sentence appears in train, this check isn't run, and the README says so.
