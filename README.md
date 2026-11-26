@@ -8,8 +8,8 @@ question here is narrower: base model (zero-shot and 3-shot) against the same mo
 pre-registered protocol.
 
 **Status:** pre-registered, no results yet. See [docs/PLAN.md](docs/PLAN.md) and the
-[pre-registration](docs/PREREGISTRATION.md), which was committed before any data download, model output or score.
-The commit hash will be recorded here.
+[pre-registration](docs/PREREGISTRATION.md), which was committed before any data download, model output or score, in
+commit `6909410ee1031ddedbffa448194ca6515b3a0c70` (2026-11-26).
 
 ## Task
 
