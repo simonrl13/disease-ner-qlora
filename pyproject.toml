@@ -1,0 +1,59 @@
+[project]
+name = "disease-ner-qlora"
+version = "0.1.0"
+requires-python = ">=3.12,<3.13"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pytest==9.2.0",
+    "pre-commit==4.7.0",
+]
+# Local Windows GPU only. Pins vetted in the owner's Scout project (docs/PLAN.md). peft is added before training.
+gpu = [
+    "torch==2.15.0 ; sys_platform == 'win32'",
+    "transformers==5.22.2",
+    "accelerate==1.15.0 ; sys_platform == 'win32'",  # requires torch
+    "bitsandbytes==0.50.2 ; sys_platform == 'win32'",  # requires torch
+    "safetensors==0.8.0",
+    "tokenizers==0.23.3",
+    "huggingface-hub==2.4.0",
+]
+
+[tool.uv]
+package = false
+default-groups = ["dev"]
+# Two-week rule for every package, transitive ones included (docs/PLAN.md).
+exclude-newer = "2026-11-12T00:00:00Z"
+# Transitive packages held at the versions vetted in Scout's lock, so nothing unapproved is installed.
+constraint-dependencies = [
+    "annotated-doc==0.0.5",
+    "anyio==4.15.1",
+    "click==8.5.0",
+    "distlib==0.4.3",
+    "filelock==4.2.1",
+    "httpcore2==2.13.1",
+    "httpx2==2.13.1",
+    "iniconfig==2.3.0",
+    "markupsafe==3.0.3",
+    "nodeenv==1.11.0",
+    "numpy==2.5.3",
+    "platformdirs==4.11.12",
+    "pluggy==1.6.0",
+    "pydantic==2.13.5",
+    "pydantic-core==2.46.5",
+    "python-discovery==1.6.1",
+    "truststore==0.10.4",
+    "typer==0.29.0",
+    "typing-inspection==0.4.4",
+    "virtualenv==21.14.13",
+]
+
+# CUDA build of torch (PyPI's Windows wheel is CPU-only). Explicit: used for torch only, nothing else.
+[[tool.uv.index]]
+name = "pytorch-cu134"
+url = "https://download.pytorch.org/whl/cu134"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu134" }

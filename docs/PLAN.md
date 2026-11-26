@@ -68,6 +68,14 @@ change (batch size, sequence length, optimiser, hardware). No silent fallback.
 - **pytest, pre-commit and pip-audit** are approved as dev/CI tools.
 - **Scout's vetted pins** are reused unchanged.
 
+**Lock (step 1, 2026-11-26):** 54 packages.
+- **Two-week rule:** `exclude-newer = 2026-11-12` applies it to every package, transitive ones included.
+- **Same as Scout:** 20 transitive packages would have resolved to newer patch releases that Scout never vetted.
+  `constraint-dependencies` holds them at Scout's vetted versions, so the only packages not in Scout's lock are
+  pytest 9.2.0 and pre-commit 4.7.0, both approved.
+- **OSV:** the batch query on 2026-11-26 returned no advisories for any locked version.
+- **bitsandbytes:** it loads its CUDA 13.2 build under torch's cu134 build, as it did in Scout.
+
 The table below is the original vetting, checked on PyPI and OSV on 2026-11-26 with a cutoff of 2026-11-12.
 
 | Package | Proposed pin | Released | Newer (too new) | Licence | OSV (pinned version) | Needed? |
