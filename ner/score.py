@@ -1,6 +1,28 @@
-"""String -> span mapping and entity-level counts, per pre-registration §3 and §7."""
+"""Output parsing, string -> span mapping and entity-level counts, per pre-registration §3 and §7."""
+
+import json
+import re
 
 from ner.data import Span
+
+_FENCE = re.compile(r"\A```[A-Za-z]*[ \t]*\n(.*)\n```\Z", re.S)
+
+
+def parse_output(raw: str, hit_limit: bool) -> list[str] | None:
+    """The predicted strings, or None for an invalid output (§3). No retry, no repair."""
+    if hit_limit:
+        return None
+    s = raw.strip()
+    m = _FENCE.match(s)
+    if m:  # at most one enclosing fence
+        s = m.group(1)
+    try:
+        out = json.loads(s)
+    except json.JSONDecodeError:
+        return None
+    if not isinstance(out, list) or not all(isinstance(x, str) for x in out):
+        return None
+    return out
 
 
 def map_strings(tokens: list[str], strings: list[str]) -> tuple[list[Span], int]:

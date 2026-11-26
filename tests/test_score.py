@@ -1,5 +1,16 @@
 from ner.data import bio_spans, gold_strings
-from ner.score import counts, map_strings, prf
+from ner.score import counts, map_strings, parse_output, prf
+
+
+def test_parse_output():
+    assert parse_output(' ["a b", "c"] \n', False) == ["a b", "c"]
+    assert parse_output("[]", False) == []
+    assert parse_output('```json\n["a"]\n```', False) == ["a"]
+    assert parse_output('```\n["a"]\n```', False) == ["a"]
+    assert parse_output('```json\n```json\n["a"]\n```\n```', False) is None  # only one fence stripped
+    assert parse_output('["a"]', True) is None  # stopped at max_new_tokens
+    for bad in ['Diseases: ["a"]', '{"a": 1}', '["a", 1]', '"a"', "", '["a"] trailing']:
+        assert parse_output(bad, False) is None, bad
 
 TOK = "Breast cancer and cancer , not cancers or Cancer .".split()
 

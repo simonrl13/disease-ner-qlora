@@ -1,0 +1,21 @@
+{
+  "seed": 20261126,
+  "rule": "random.Random(seed): sample(with_mention, 2) + sample(no_mention, 1); order as drawn",
+  "shots": [
+    {
+      "train_index": 3691,
+      "sentence": "From the proportion of DMD patients who have inherited their maternal grandfathers X chromosome , the ratio of mutation rates can be calculated .",
+      "answer": "[\"DMD\"]"
+    },
+    {
+      "train_index": 3467,
+      "sentence": "We cloned and sequenced the four G6PD variants from Sardinia and found that only two mutations are responsible for G6PD deficiency in this area one mutation is the cause of the G6PD Seattle - like phenotype , a milder form of G6PD deficiency ; the other mutation is responsible for all forms of very severe G6PD deficiency in Sardinia and , possibly , in the Mediterranean . .",
+      "answer": "[\"G6PD deficiency\", \"G6PD Seattle - like phenotype\"]"
+    },
+    {
+      "train_index": 270,
+      "sentence": "We were unable to detect evidence of sulfate transport following the expression of pendrin in Xenopus laevis oocytes by microinjection of PDS cRNA or in Sf9 cells following infection with PDS - recombinant baculovirus .",
+      "answer": "[]"
+    }
+  ]
+}
