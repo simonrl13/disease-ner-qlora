@@ -141,3 +141,7 @@ and those are now the expected counts.
 project.
 
 The data and all other rules are unchanged.
+
+**Timing (added 2026-11-26, owner-approved):** this amendment was written after the split-size check had run and
+failed by one sentence per split. The PMID-leakage check had also already run and passed. No other check result, and
+no model output, existed yet.

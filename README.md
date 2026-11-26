@@ -29,7 +29,8 @@ These come from `scripts/prerun_checks.py`, and the full output is in
 - **Documents:** 593 / 100 / 100 abstracts, matching the authors' counts. Train has 592 unique PMIDs plus the
   documented duplicate, PMID 8528200.
 - **PMID leakage:** none. No PMID appears in more than one split.
-- **Gold mentions:** 5,145 / 787 / 960. Sentences with no mention: 2,502 / 434 / 401.
+- **Gold mentions:** 5,145 / 787 / 960 (6,892 in all), matching the mention counts in Doğan et al. 2014. Sentences
+  with no mention: 2,502 / 434 / 401.
 - **Identical sentences across splits:** they are reported here, and the splits are not modified.
 
   | Splits | Distinct | Sentences |
