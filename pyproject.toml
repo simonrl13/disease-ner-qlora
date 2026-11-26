@@ -57,3 +57,6 @@ explicit = true
 
 [tool.uv.sources]
 torch = { index = "pytorch-cu134" }
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
