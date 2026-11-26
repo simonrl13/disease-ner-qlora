@@ -1,0 +1,108 @@
+{
+  "documents": {
+    "train": 593,
+    "dev": 100,
+    "test": 100
+  },
+  "unique_pmids": {
+    "train": 592,
+    "dev": 100,
+    "test": 100
+  },
+  "duplicate_pmids": {
+    "train": [
+      "8528200"
+    ],
+    "dev": [],
+    "test": []
+  },
+  "pmid_overlap": {
+    "train&dev": [],
+    "train&test": [],
+    "dev&test": []
+  },
+  "sentences": {
+    "train": 5432,
+    "dev": 923,
+    "test": 940
+  },
+  "mentions": {
+    "train": 5145,
+    "dev": 787,
+    "test": 960
+  },
+  "no_mention_sentences": {
+    "train": 2502,
+    "dev": 434,
+    "test": 401
+  },
+  "oracle": {
+    "train": {
+      "tp": 5145,
+      "fp": 22,
+      "fn": 0,
+      "sentences_affected": 20,
+      "max_f1": 0.9979
+    },
+    "dev": {
+      "tp": 787,
+      "fp": 1,
+      "fn": 0,
+      "sentences_affected": 1,
+      "max_f1": 0.9994
+    },
+    "test": {
+      "tp": 960,
+      "fp": 9,
+      "fn": 0,
+      "sentences_affected": 9,
+      "max_f1": 0.9953
+    }
+  },
+  "identical_across_splits": {
+    "train&dev": {
+      "distinct": 5,
+      "occurrences": {
+        "train": 12,
+        "dev": 5
+      },
+      "texts": [
+        "1 1 .",
+        "2 2 .",
+        "3 .",
+        "METHODS .",
+        "RESULTS ."
+      ]
+    },
+    "train&test": {
+      "distinct": 1,
+      "occurrences": {
+        "train": 1,
+        "test": 1
+      },
+      "texts": [
+        "Hereditary deficiency of the fifth component of complement in man ."
+      ]
+    },
+    "dev&test": {
+      "distinct": 1,
+      "occurrences": {
+        "dev": 1,
+        "test": 1
+      },
+      "texts": [
+        "5 of embryogenesis ."
+      ]
+    }
+  },
+  "duplicates_within_split": {
+    "train": 32,
+    "dev": 0,
+    "test": 3
+  },
+  "amendment1": {
+    "test_sentences_in_train": 1,
+    "test_subset_size": 939,
+    "check_runs": true
+  }
+}

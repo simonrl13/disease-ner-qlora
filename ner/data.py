@@ -47,6 +47,6 @@ def gold_strings(tokens: list[str], spans: list[Span]) -> list[str]:
     return list(dict.fromkeys(" ".join(tokens[a:b]) for a, b in spans))
 
 
-def pmids(path: Path) -> set[str]:
-    """PMIDs in an original NCBI corpus file (title lines `PMID|t|...`)."""
-    return set(re.findall(r"^(\d+)\|t\|", path.read_text(encoding="utf-8"), flags=re.M))
+def pmids(path: Path) -> list[str]:
+    """PMID of every document in an original NCBI corpus file (title lines `PMID|t|...`), duplicates kept."""
+    return re.findall(r"^(\d+)\|t\|", path.read_text(encoding="utf-8"), flags=re.M)

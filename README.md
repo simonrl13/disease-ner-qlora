@@ -17,6 +17,46 @@ The model reads one sentence and returns the disease mentions as a JSON list of 
 entity-level micro-F1 on exact span match against the gold BIO spans, with precision, recall and the invalid-output
 rate. Unparseable output counts as a failed prediction.
 
+## Pre-run checks (2026-11-26, before any model output)
+
+These come from `scripts/prerun_checks.py`, and the full output is in
+[docs/prerun_checks.json](docs/prerun_checks.json). The rules are in pre-registration §2 and Amendments 1–2.
+
+- **Files:** all 7 downloaded files match the git blob hashes at commit `5a266c6`. Their SHA-256 hashes are in
+  [data/SHA256SUMS](data/SHA256SUMS).
+- **Sentences:** 5,432 / 923 / 940, as expected under Amendment 2. The HF dataset card's 5,433 / 924 / 941 include one
+  empty end-of-file example per split.
+- **Documents:** 593 / 100 / 100 abstracts, matching the authors' counts. Train has 592 unique PMIDs plus the
+  documented duplicate, PMID 8528200.
+- **PMID leakage:** none. No PMID appears in more than one split.
+- **Gold mentions:** 5,145 / 787 / 960. Sentences with no mention: 2,502 / 434 / 401.
+- **Identical sentences across splits:** they are reported here, and the splits are not modified.
+
+  | Splits | Distinct | Sentences |
+  |---|---|---|
+  | train & dev | 5 | `1 1 .`, `2 2 .`, `3 .`, `METHODS .`, `RESULTS .` (section labels and fragments; no disease mention) |
+  | train & test | 1 | `Hereditary deficiency of the fifth component of complement in man .` |
+  | dev & test | 1 | `5 of embryogenesis .` (fragment; no disease mention) |
+
+  The train and test sentence is the start of the titles of two different papers, part I (PMID 932197, test) and
+  part II (PMID 777027, train), cut at "man." by sentence splitting. Its gold label is the same in both splits:
+  "Hereditary deficiency of the fifth component of complement".
+- **Duplicates within a split:** train has 32 repeated sentences, including the duplicated document, and test has 3.
+  This is reported, not changed.
+- **Amendment 1:** 1 test sentence also appears in train, so test F1 will also be reported on the remaining 939 test
+  sentences as a sensitivity check. The main result stays on the full 940.
+- **String-output ceiling (§3):** this is what a perfect answer, the gold strings themselves, scores under the
+  mapping rule.
+
+  | Split | Extra FPs | Sentences affected | Max micro-F1 |
+  |---|---|---|---|
+  | train | 22 | 20 | 0.9979 |
+  | dev | 1 | 1 | 0.9994 |
+  | test | 9 | 9 | 0.9953 |
+
+  The FPs come from a gold string repeated unlabelled elsewhere in the same sentence. The oracle has no false
+  negatives.
+
 ## Results
 
 _None yet. Results will be reported exactly as measured, including failures and deviations._

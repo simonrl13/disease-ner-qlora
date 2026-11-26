@@ -17,20 +17,30 @@ RAW = Path("data/raw")
 SPLITS = {"train": "train", "dev": "devel", "test": "test"}
 ORIG = {"train": "train/NCBItrainset_corpus.txt", "dev": "devel/NCBIdevelopset_corpus.txt",
         "test": "test/NCBItestset_corpus.txt"}
-EXPECTED = {"train": 5433, "dev": 924, "test": 941}
+# Amendment 2: non-empty sentences in the files (the HF card's 5,433/924/941 include one empty EOF example each).
+EXPECTED = {"train": 5432, "dev": 923, "test": 940}
+# Amendment 2: published abstract counts; train has one documented duplicate document.
+EXPECTED_DOCS = {"train": 593, "dev": 100, "test": 100}
+EXPECTED_DUPES = {"train": ["8528200"], "dev": [], "test": []}
 
 
 def main() -> None:
     out: dict = {}
 
     # 1. PMID leakage: checked first, stops everything if it fails.
-    ids = {s: pmids(RAW / "original-data" / f) for s, f in ORIG.items()}
-    out["pmids_per_split"] = {s: len(v) for s, v in ids.items()}
+    docs = {s: pmids(RAW / "original-data" / f) for s, f in ORIG.items()}
+    ids = {s: set(v) for s, v in docs.items()}
+    out["documents"] = {s: len(v) for s, v in docs.items()}
+    out["unique_pmids"] = {s: len(v) for s, v in ids.items()}
+    out["duplicate_pmids"] = {s: sorted(p for p, n in Counter(v).items() if n > 1) for s, v in docs.items()}
     overlap = {f"{a}&{b}": sorted(ids[a] & ids[b]) for a, b in combinations(ids, 2)}
     out["pmid_overlap"] = overlap
     if any(overlap.values()):
         print(json.dumps(out, indent=2))
         sys.exit("STOP: a PMID appears in more than one split. Owner decision needed.")
+    if out["documents"] != EXPECTED_DOCS or out["duplicate_pmids"] != EXPECTED_DUPES:
+        print(json.dumps(out, indent=2))
+        sys.exit(f"STOP: documents/duplicates differ from {EXPECTED_DOCS} / {EXPECTED_DUPES}")
 
     # 2. Split sizes.
     data = {s: read_conll(RAW / "conll" / f"{f}.tsv") for s, f in SPLITS.items()}
